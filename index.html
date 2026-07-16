@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saba & Farhan — A Promise Begins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fdf6ee;
+    --blush:#f6e2df;
+    --rose:#c98a8f;
+    --rose-deep:#9c4f5b;
+    --maroon:#6d2b3a;
+    --gold:#c8a15b;
+    --gold-light:#e8cf9c;
+    --ink:#4a2e33;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;
+    min-height:100vh;
+    background: radial-gradient(circle at 20% 20%, #fbeee2 0%, #f4e0da 45%, #ecd2cd 100%);
+    font-family:'Cormorant Garamond', serif;
+    color:var(--ink);
+    overflow-x:hidden;
+    position:relative;
+  }
+  .script{ font-family:'Great Vibes', cursive; }
+  .display{ font-family:'Playfair Display', serif; }
+
+  /* Floating petals */
+  .petal{
+    position:fixed;
+    top:-40px;
+    z-index:1;
+    pointer-events:none;
+    opacity:0.85;
+    will-change:transform;
+    animation-name: fall, sway;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+  }
+  @keyframes fall{
+    from{ transform:translateY(-10vh) rotate(0deg); }
+    to{ transform:translateY(110vh) rotate(360deg); }
+  }
+  @keyframes sway{
+    0%,100%{ margin-left:0px; }
+    50%{ margin-left:40px; }
+  }
+
+  .stage{
+    display:none;
+    min-height:100vh;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:40px 20px;
+    position:relative;
+    z-index:2;
+  }
+  .stage.active{ display:flex; animation:fadeIn 1.4s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+
+  .frame{
+    max-width:680px;
+    width:100%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.25));
+    border:1px solid rgba(200,161,91,0.5);
+    border-radius:18px;
+    padding:50px 36px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 20px 60px rgba(109,43,58,0.15);
+    position:relative;
+  }
+  .frame::before, .frame::after{
+    content:"❀";
+    position:absolute;
+    color:var(--gold);
+    font-size:22px;
+    opacity:0.8;
+  }
+  .frame::before{ top:14px; left:18px; }
+  .frame::after{ bottom:14px; right:18px; transform:rotate(180deg); }
+
+  .lock-icon{
+    font-size:52px;
+    margin-bottom:18px;
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ transform:scale(1); opacity:0.85; }
+    50%{ transform:scale(1.12); opacity:1; }
+  }
+
+  h1.title{
+    font-size:2.6rem;
+    color:var(--maroon);
+    margin:6px 0 4px;
+    letter-spacing:1px;
+  }
+  .sub{
+    font-size:1.25rem;
+    color:var(--rose-deep);
+    margin-bottom:22px;
+    letter-spacing:0.5px;
+  }
+  p.lead{
+    font-size:1.25rem;
+    line-height:1.7;
+    color:var(--ink);
+    margin:14px 0;
+  }
+  .date-pill{
+    display:inline-block;
+    margin-top:22px;
+    padding:10px 26px;
+    border:1px solid var(--gold);
+    border-radius:999px;
+    color:var(--maroon);
+    font-size:1.05rem;
+    letter-spacing:1px;
+    background:rgba(255,255,255,0.4);
+  }
+
+  /* Countdown */
+  .countdown{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    margin:30px 0 10px;
+    flex-wrap:wrap;
+  }
+  .cbox{
+    background:linear-gradient(180deg,#fff,var(--blush));
+    border:1px solid var(--gold-light);
+    border-radius:14px;
+    padding:16px 18px;
+    min-width:78px;
+    box-shadow:0 8px 18px rgba(109,43,58,0.1);
+  }
+  .cbox .num{
+    font-family:'Playfair Display',serif;
+    font-size:2.1rem;
+    color:var(--maroon);
+    font-weight:600;
+  }
+  .cbox .lbl{
+    font-size:0.8rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--rose-deep);
+    margin-top:4px;
+  }
+
+  /* Stage 3 love letter */
+  .names{
+    font-size:3.2rem;
+    color:var(--maroon);
+    margin-bottom:6px;
+  }
+  .amp{ color:var(--gold); margin:0 10px; }
+  .letter{
+    text-align:left;
+    font-size:1.28rem;
+    line-height:1.85;
+    color:var(--ink);
+    margin:26px 0;
+  }
+  .letter p{ margin:0 0 16px; }
+  .signature{
+    text-align:right;
+    font-size:2.1rem;
+    color:var(--rose-deep);
+    margin-top:10px;
+  }
+
+  .commitments{
+    text-align:left;
+    list-style:none;
+    padding:0;
+    margin:26px 0;
+  }
+  .commitments li{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding:10px 0;
+    font-size:1.15rem;
+    line-height:1.6;
+    border-bottom:1px dashed rgba(157,79,91,0.25);
+    opacity:0;
+    transform:translateY(10px);
+    animation: riseIn 0.7s ease forwards;
+  }
+  .commitments li:last-child{ border-bottom:none; }
+  .commitments li .mark{
+    color:var(--gold);
+    font-size:1.3rem;
+    flex-shrink:0;
+  }
+  @keyframes riseIn{ to{ opacity:1; transform:translateY(0);} }
+
+  .section-title{
+    font-size:1.6rem;
+    color:var(--maroon);
+    margin:36px 0 6px;
+    letter-spacing:1px;
+  }
+
+  .journey{
+    margin-top:34px;
+    padding-top:26px;
+    border-top:1px solid rgba(200,161,91,0.4);
+  }
+  .journey .lbl-top{
+    font-size:1rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--rose-deep);
+    margin-bottom:14px;
+  }
+
+  .heart-loader{
+    font-size:34px;
+    color:var(--rose);
+    animation:beat 1.4s ease-in-out infinite;
+  }
+  @keyframes beat{
+    0%,100%{ transform:scale(1); }
+    25%{ transform:scale(1.2); }
+    40%{ transform:scale(0.95); }
+  }
+
+  footer.tiny{
+    margin-top:30px;
+    font-size:0.9rem;
+    color:var(--rose-deep);
+    opacity:0.75;
+    letter-spacing:0.5px;
+  }
+
+  @media(max-width:520px){
+    h1.title{ font-size:2rem; }
+    .names{ font-size:2.2rem; }
+    .frame{ padding:34px 20px; }
+    .cbox{ min-width:64px; padding:12px 12px; }
+    .cbox .num{ font-size:1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="petals"></div>
+
+<!-- STAGE 1: Before 17 July 2026 -->
+<section class="stage" id="stage1">
+  <div class="frame">
+    <div class="lock-icon">🔒✨</div>
+    <div class="sub script" style="font-size:1.6rem;">a promise, being written</div>
+    <h1 class="title script" style="font-size:3.2rem;">Something Beautiful<br>is Coming</h1>
+    <p class="lead">A page just for you is being kept safe, sealed with patience — waiting for the right moment to open its heart.</p>
+    <div class="date-pill">Opens 17 July 2026</div>
+    <div style="margin-top:26px;" class="heart-loader">♥</div>
+  </div>
+</section>
+
+<!-- STAGE 2: On 17 July, before 7:00 PM -->
+<section class="stage" id="stage2">
+  <div class="frame">
+    <div class="sub script" style="font-size:1.6rem;">today is the day</div>
+    <h1 class="title display">The Wait Is Almost Over</h1>
+    <p class="lead">Somewhere between this moment and 7:00 PM, our story quietly changes forever.</p>
+    <div class="countdown">
+      <div class="cbox"><div class="num" id="c-h">00</div><div class="lbl">Hours</div></div>
+      <div class="cbox"><div class="num" id="c-m">00</div><div class="lbl">Minutes</div></div>
+      <div class="cbox"><div class="num" id="c-s">00</div><div class="lbl">Seconds</div></div>
+    </div>
+    <p class="lead" style="font-size:1.05rem; opacity:0.85;">At exactly 7:00 PM, this page opens completely — for you, Saba.</p>
+  </div>
+</section>
+
+<!-- STAGE 3: From 7:00 PM, 17 July 2026 onward -->
+<section class="stage" id="stage3">
+  <div class="frame" style="max-width:760px;">
+    <div class="names">
+      <span class="script">Saba</span><span class="amp">&</span><span class="script">Farhan</span>
+    </div>
+    <div class="sub display" style="font-size:1.1rem; letter-spacing:2px;">17 · JULY · 2026</div>
+
+    <div class="letter" id="letterText"></div>
+
+    <div class="section-title script" style="font-size:2rem;">My Promises to You</div>
+    <ul class="commitments" id="commitList"></ul>
+
+    <div class="journey">
+      <div class="lbl-top">Our Nikkah Journey</div>
+      <div class="countdown" id="journeyCountdown">
+        <div class="cbox"><div class="num" id="j-d">0</div><div class="lbl">Days</div></div>
+        <div class="cbox"><div class="num" id="j-h">00</div><div class="lbl">Hours</div></div>
+        <div class="cbox"><div class="num" id="j-m">00</div><div class="lbl">Minutes</div></div>
+        <div class="cbox"><div class="num" id="j-s">00</div><div class="lbl">Seconds</div></div>
+      </div>
+      <p style="margin-top:16px; font-size:1.1rem; color:var(--rose-deep);">...and counting, for the rest of our lives. ♥</p>
+    </div>
+
+    <footer class="tiny">Made with love, just for you.</footer>
+  </div>
+</section>
+
+<script>
+/* ================= CONFIG ================= */
+// Nikkah date (visible/countdown stage begins) — midnight, 17 July 2026, Pakistan time (UTC+5)
+const NIKKAH_DATE = new Date('2026-07-17T00:00:00+05:00');
+// Exact Nikkah moment — 7:00 PM, 17 July 2026, Pakistan time
+const NIKKAH_TIME = new Date('2026-07-17T19:00:00+05:00');
+
+/* ================= PETALS ================= */
+const petalEmojis = ['❀','✿','♥','❁'];
+const petalColors = ['#c98a8f','#c8a15b','#9c4f5b','#e8cf9c'];
+function spawnPetal(){
+  const el = document.createElement('div');
+  el.className = 'petal';
+  el.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  el.style.left = Math.random()*100 + 'vw';
+  el.style.fontSize = (14 + Math.random()*16) + 'px';
+  el.style.color = petalColors[Math.floor(Math.random()*petalColors.length)];
+  const fallDur = 8 + Math.random()*10;
+  const swayDur = 3 + Math.random()*3;
+  el.style.animationDuration = fallDur + 's, ' + swayDur + 's';
+  document.getElementById('petals').appendChild(el);
+  setTimeout(()=> el.remove(), fallDur*1000 + 200);
+}
+setInterval(spawnPetal, 700);
+for(let i=0;i<6;i++) setTimeout(spawnPetal, i*300);
+
+/* ================= LETTER CONTENT ================= */
+const letterParagraphs = [
+  "Saba, jaan,",
+  "Tonight our names sit side by side for the first time — and honestly, I don't think there's a sentence long enough to hold everything I feel about that. So I'll keep it simple: I chose you. Out of every possible life, I chose the one where I get to walk through it with you.",
+  "You are not just the woman I'm marrying — you are the home I didn't know I was building toward. Every ordinary day from here on is about to become something worth remembering, simply because you'll be in it.",
+  "Thank you for trusting me with your heart. I know it took courage to say yes to a lifetime. I promise I will spend every one of my days trying to deserve it."
+];
+
+const commitmentsList = [
+  "I promise to choose you again, every single day — not just today, in a hundred small ways.",
+  "I promise to listen more than I speak, and to make space for your dreams the way I hope you make space for mine.",
+  "I promise to build a home with you that is full of faith, laughter, and peace — a place you always want to return to.",
+  "I promise to be your safe place, especially on the days the world feels heavy.",
+  "I promise to grow with you, not just grow old beside you.",
+  "I promise to make dua for you as often as I make dua for myself.",
+  "I promise patience on hard days, gratitude on ordinary ones, and celebration on the good ones.",
+  "I promise this is only the first page — and I intend to fill every page after it with you."
+];
+
+function typeLetter(){
+  const container = document.getElementById('letterText');
+  container.innerHTML = '';
+  letterParagraphs.forEach((p, idx)=>{
+    const para = document.createElement('p');
+    para.style.opacity = 0;
+    para.style.transition = 'opacity 1s ease';
+    para.textContent = p;
+    container.appendChild(para);
+    setTimeout(()=>{ para.style.opacity = 1; }, 400 * idx);
+  });
+}
+
+function renderCommitments(){
+  const ul = document.getElementById('commitList');
+  ul.innerHTML = '';
+  commitmentsList.forEach((c, idx)=>{
+    const li = document.createElement('li');
+    li.style.animationDelay = (0.15*idx + 1.6) + 's';
+    li.innerHTML = '<span class="mark">♥</span><span>' + c + '</span>';
+    ul.appendChild(li);
+  });
+}
+
+/* ================= STAGE LOGIC ================= */
+let letterRendered = false;
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function updateStage(){
+  const now = new Date();
+  const s1 = document.getElementById('stage1');
+  const s2 = document.getElementById('stage2');
+  const s3 = document.getElementById('stage3');
+
+  if(now < NIKKAH_DATE){
+    s1.classList.add('active'); s2.classList.remove('active'); s3.classList.remove('active');
+  } else if(now < NIKKAH_TIME){
+    s1.classList.remove('active'); s2.classList.add('active'); s3.classList.remove('active');
+    const diff = NIKKAH_TIME - now;
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('c-h').textContent = pad(h);
+    document.getElementById('c-m').textContent = pad(m);
+    document.getElementById('c-s').textContent = pad(s);
+  } else {
+    s1.classList.remove('active'); s2.classList.remove('active'); s3.classList.add('active');
+    if(!letterRendered){
+      typeLetter();
+      renderCommitments();
+      letterRendered = true;
+    }
+    const diff = now - NIKKAH_TIME;
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('j-d').textContent = d;
+    document.getElementById('j-h').textContent = pad(h);
+    document.getElementById('j-m').textContent = pad(m);
+    document.getElementById('j-s').textContent = pad(s);
+  }
+}
+
+updateStage();
+setInterval(updateStage, 1000);
+</script>
+
+</body>
+</html>
