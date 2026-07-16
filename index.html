@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farhan &amp; Saba — Nikkah Mubarak</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+  :root{
+    --night-deep:#080b1a;
+    --night:#0d1230;
+    --night-soft:#171f47;
+    --gold:#e7c27d;
+    --gold-soft:#f4e2b8;
+    --rose:#e3a9a0;
+    --cream:#f6f0e4;
+    --lavender:#9b9fd4;
+    --line: rgba(231,194,125,0.28);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:radial-gradient(ellipse at 50% -10%, var(--night-soft), var(--night-deep) 60%);
+    color:var(--cream);
+    font-family:'EB Garamond', serif;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  #sky{
+    position:fixed; inset:0; z-index:0; overflow:hidden;
+  }
+  .bg-stars{
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20px 30px, var(--gold-soft), transparent),
+      radial-gradient(1px 1px at 90px 120px, var(--cream), transparent),
+      radial-gradient(1.5px 1.5px at 160px 60px, var(--gold-soft), transparent),
+      radial-gradient(1px 1px at 230px 180px, var(--cream), transparent),
+      radial-gradient(1.5px 1.5px at 300px 40px, var(--gold-soft), transparent),
+      radial-gradient(1px 1px at 40px 220px, var(--cream), transparent),
+      radial-gradient(1.5px 1.5px at 340px 260px, var(--gold-soft), transparent),
+      radial-gradient(1px 1px at 130px 300px, var(--cream), transparent);
+    background-repeat:repeat;
+    background-size:380px 340px;
+    opacity:0.55;
+    animation:drift 140s linear infinite;
+  }
+  @keyframes drift{ from{background-position:0 0;} to{background-position:-380px 340px;} }
+
+  .aurora{
+    position:absolute; inset:-20%;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(155,159,212,0.14), transparent 45%),
+      radial-gradient(circle at 75% 65%, rgba(227,169,160,0.10), transparent 45%);
+    filter:blur(40px);
+    animation:sway 26s ease-in-out infinite alternate;
+  }
+  @keyframes sway{ from{transform:translateY(-2%) translateX(-1%);} to{transform:translateY(2%) translateX(1%);} }
+
+  .hero-star{
+    position:absolute; top:38%;
+    width:14px; height:14px; border-radius:50%;
+    background:radial-gradient(circle, var(--gold-soft) 0%, var(--gold) 45%, transparent 75%);
+    box-shadow:0 0 18px 6px rgba(231,194,125,0.55), 0 0 45px 18px rgba(231,194,125,0.18);
+    transition:left 1s ease-out, top 1s ease-out, opacity 1.2s ease;
+  }
+  #star-f{ left:15%; }
+  #star-s{ left:83%; }
+
+  .constellation-line{
+    position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;
+    pointer-events:none;
+  }
+  .constellation-line line{
+    stroke:var(--gold); stroke-width:1; opacity:0;
+    transition:opacity 1.5s ease;
+  }
+
+  main{
+    position:relative; z-index:2;
+    min-height:100%;
+    display:flex; align-items:center; justify-content:center;
+    padding:6vh 6vw;
+  }
+
+  section{
+    max-width:760px; width:100%; text-align:center;
+  }
+
+  .eyebrow{
+    font-family:'Jost', sans-serif;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--gold);
+    opacity:0.85;
+    margin-bottom:1.4rem;
+  }
+
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    line-height:1.08;
+    margin:0 0 0.6rem 0;
+    color:var(--gold-soft);
+  }
+  h1 em{
+    font-style:italic; color:var(--rose); font-weight:500;
+  }
+
+  .subtitle{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.05rem, 2.2vw, 1.35rem);
+    color:var(--lavender);
+    margin:0 0 3rem 0;
+    font-weight:500;
+  }
+
+  /* Countdown */
+  #countdown-view .clock{
+    display:flex; justify-content:center; gap:clamp(0.8rem, 3vw, 2.2rem);
+    margin:2.5rem 0 2.8rem 0;
+    flex-wrap:wrap;
+  }
+  .unit{
+    display:flex; flex-direction:column; align-items:center;
+    min-width:70px;
+  }
+  .unit .num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(2.4rem, 7vw, 3.6rem);
+    font-weight:600;
+    color:var(--cream);
+    line-height:1;
+    font-variant-numeric:tabular-nums;
+    text-shadow:0 0 24px rgba(231,194,125,0.35);
+  }
+  .unit .lbl{
+    font-family:'Jost', sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--lavender);
+    margin-top:0.5rem;
+  }
+  .sep{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(2rem, 6vw, 3rem);
+    color:var(--gold);
+    opacity:0.5;
+    align-self:flex-start;
+    margin-top:0.15em;
+  }
+
+  .waiting-line{
+    font-family:'EB Garamond', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--cream);
+    opacity:0.85;
+    max-width:480px;
+    margin:0 auto;
+    line-height:1.7;
+  }
+
+  .divider{
+    width:1px; height:46px; background:linear-gradient(var(--gold), transparent);
+    margin:2.6rem auto;
+    opacity:0.6;
+  }
+
+  /* Reveal page */
+  #reveal-view{ display:none; }
+  #reveal-view.show{ display:block; animation:fadeUp 1.4s ease; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+
+  .commitments-intro{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    color:var(--rose);
+    font-size:1.15rem;
+    margin-bottom:2.2rem;
+  }
+
+  .vows{
+    list-style:none; padding:0; margin:0 auto 2.6rem auto;
+    text-align:left; max-width:600px;
+    display:flex; flex-direction:column; gap:1.5rem;
+  }
+  .vows li{
+    display:flex; gap:1rem; align-items:flex-start;
+    font-size:1.08rem; line-height:1.6;
+    color:var(--cream);
+    opacity:0.95;
+  }
+  .vows li .mark{
+    font-family:'Cormorant Garamond', serif;
+    color:var(--gold);
+    font-size:1.3rem;
+    line-height:1.6;
+    flex-shrink:0;
+  }
+
+  .signature-block{
+    margin-top:3rem;
+  }
+  .stars-line{
+    font-family:'Jost', sans-serif;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    font-size:0.75rem;
+    color:var(--lavender);
+    margin-bottom:1.6rem;
+  }
+  .blessing{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.1rem, 2.4vw, 1.4rem);
+    color:var(--gold-soft);
+    line-height:1.7;
+    max-width:520px;
+    margin:0 auto 2rem auto;
+  }
+  .names{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(1.6rem, 4vw, 2.2rem);
+    color:var(--cream);
+    margin-bottom:0.3rem;
+  }
+  .mubarak{
+    font-family:'Jost', sans-serif;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.85rem;
+    color:var(--gold);
+  }
+
+  /* Forever clock */
+  .forever-wrap{
+    margin-top:4rem;
+    padding-top:2.6rem;
+    border-top:1px solid var(--line);
+  }
+  .forever-label{
+    font-family:'Jost', sans-serif;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--lavender);
+    margin-bottom:1.2rem;
+  }
+  .forever-clock{
+    display:flex; justify-content:center; gap:clamp(0.6rem,2.5vw,1.6rem);
+    flex-wrap:wrap;
+  }
+  .forever-clock .unit .num{
+    font-size:clamp(1.6rem, 4.5vw, 2.4rem);
+    color:var(--gold-soft);
+    text-shadow:0 0 20px rgba(231,194,125,0.4);
+  }
+  .forever-note{
+    margin-top:1.3rem;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--cream);
+    opacity:0.75;
+  }
+
+  footer{
+    position:relative; z-index:2;
+    text-align:center;
+    font-family:'Jost', sans-serif;
+    font-size:0.65rem;
+    letter-spacing:0.15em;
+    color:var(--lavender);
+    opacity:0.4;
+    padding-bottom:3vh;
+  }
+</style>
+</head>
+<body>
+
+<div id="sky">
+  <div class="bg-stars"></div>
+  <div class="aurora"></div>
+  <div class="hero-star" id="star-f"></div>
+  <div class="hero-star" id="star-s"></div>
+  <svg class="constellation-line" id="const-svg"><line id="const-line" x1="0" y1="0" x2="0" y2="0"/></svg>
+</div>
+
+<main>
+
+  <section id="countdown-view">
+    <div class="eyebrow">Farhan &amp; Saba</div>
+    <h1>Two stars,<br><em>drifting toward one sky</em></h1>
+    <p class="subtitle">17th of July, 2026 · 7:00 in the evening</p>
+
+    <div class="clock">
+      <div class="unit"><span class="num" id="dd">00</span><span class="lbl">Days</span></div>
+      <div class="sep">:</div>
+      <div class="unit"><span class="num" id="hh">00</span><span class="lbl">Hours</span></div>
+      <div class="sep">:</div>
+      <div class="unit"><span class="num" id="mm">00</span><span class="lbl">Minutes</span></div>
+      <div class="sep">:</div>
+      <div class="unit"><span class="num" id="ss">00</span><span class="lbl">Seconds</span></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="waiting-line">Somewhere, two names are being written into one story.<br>
+    Until the moment comes — the sky is simply holding its breath.</p>
+  </section>
+
+  <section id="reveal-view">
+    <div class="eyebrow">Nikkah Mubarak</div>
+    <h1>What I'm bringing<br><em>into this</em></h1>
+    <p class="commitments-intro">Not vows for a stage — just the truth, written for you.</p>
+
+    <ul class="vows">
+      <li><span class="mark">✦</span><span>I will listen before I react — to actually hear you, even when it's easier to just defend myself.</span></li>
+      <li><span class="mark">✦</span><span>I will keep choosing you on the ordinary days, not just the ones that feel like a celebration.</span></li>
+      <li><span class="mark">✦</span><span>I will build with you, not just for you — our home, our decisions, our future, made together, out loud.</span></li>
+      <li><span class="mark">✦</span><span>I will protect your peace as carefully as I protect my own pride, and try to let go of the second one first.</span></li>
+      <li><span class="mark">✦</span><span>I will keep learning who you are, on purpose, for as long as you keep becoming someone new.</span></li>
+      <li><span class="mark">✦</span><span>I will show up on the hard nights — not just the good ones — because that's when it actually counts.</span></li>
+    </ul>
+
+    <div class="signature-block">
+      <div class="stars-line">Two stars, one sky, from tonight onward</div>
+      <p class="blessing">May this marriage be gentle with us,<br>and may we always be gentler with each other.</p>
+      <div class="names">Farhan &amp; Saba</div>
+      <div class="mubarak">Nikkah Mubarak</div>
+    </div>
+
+    <div class="forever-wrap">
+      <div class="forever-label">Every second of forever, counted</div>
+      <div class="forever-clock">
+        <div class="unit"><span class="num" id="fy">0</span><span class="lbl">Years</span></div>
+        <div class="unit"><span class="num" id="fd">0</span><span class="lbl">Days</span></div>
+        <div class="unit"><span class="num" id="fh">00</span><span class="lbl">Hours</span></div>
+        <div class="unit"><span class="num" id="fm">00</span><span class="lbl">Min</span></div>
+        <div class="unit"><span class="num" id="fs">00</span><span class="lbl">Sec</span></div>
+      </div>
+      <p class="forever-note">since 17 July 2026, 7:00 PM — and counting, for as long as this sky holds us.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>farhan &amp; saba · nikkah · 17 july 2026</footer>
+
+<script>
+  // Nikkah moment — Pakistan Standard Time (UTC+5)
+  var TARGET = new Date("2026-07-17T19:00:00+05:00").getTime();
+
+  var countdownView = document.getElementById('countdown-view');
+  var revealView = document.getElementById('reveal-view');
+  var starF = document.getElementById('star-f');
+  var starS = document.getElementById('star-s');
+  var constLine = document.getElementById('const-line');
+  var constSvg = document.getElementById('const-svg');
+
+  var sessionStart = Date.now();
+  var totalWindow = Math.max(TARGET - sessionStart, 1);
+  var revealed = false;
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function positionStars(fraction){
+    // fraction goes 1 -> 0 as we approach the target
+    var f = Math.max(0, Math.min(1, fraction));
+    var leftF = 15 + (50 - 15) * (1 - f);
+    var leftS = 83 - (83 - 50) * (1 - f);
+    starF.style.left = leftF + '%';
+    starS.style.left = leftS + '%';
+    starF.style.top = (38 - 4 * (1 - f)) + '%';
+    starS.style.top = (38 + 4 * (1 - f)) + '%';
+
+    // draw a faint constellation thread as they near each other
+    var rect = constSvg.getBoundingClientRect();
+    var x1 = (leftF / 100) * rect.width;
+    var x2 = (leftS / 100) * rect.width;
+    var y1 = ((38 - 4 * (1 - f)) / 100) * rect.height;
+    var y2 = ((38 + 4 * (1 - f)) / 100) * rect.height;
+    constLine.setAttribute('x1', x1);
+    constLine.setAttribute('y1', y1);
+    constLine.setAttribute('x2', x2);
+    constLine.setAttribute('y2', y2);
+    constLine.style.opacity = (1 - f) * 0.7;
+  }
+
+  function tick(){
+    var now = Date.now();
+    var remaining = TARGET - now;
+
+    if (remaining > 0){
+      var fraction = Math.max(0, Math.min(1, remaining / totalWindow));
+      positionStars(fraction);
+
+      var totalSec = Math.floor(remaining / 1000);
+      var days = Math.floor(totalSec / 86400);
+      var hours = Math.floor((totalSec % 86400) / 3600);
+      var mins = Math.floor((totalSec % 3600) / 60);
+      var secs = totalSec % 60;
+
+      document.getElementById('dd').textContent = pad(days);
+      document.getElementById('hh').textContent = pad(hours);
+      document.getElementById('mm').textContent = pad(mins);
+      document.getElementById('ss').textContent = pad(secs);
+    } else {
+      positionStars(0);
+      if (!revealed){
+        revealed = true;
+        countdownView.style.display = 'none';
+        revealView.classList.add('show');
+      }
+
+      var elapsedSec = Math.floor((now - TARGET) / 1000);
+      var yearSec = 365.25 * 86400;
+      var years = Math.floor(elapsedSec / yearSec);
+      var rem1 = elapsedSec - Math.floor(years * yearSec);
+      var fdays = Math.floor(rem1 / 86400);
+      var fhours = Math.floor((rem1 % 86400) / 3600);
+      var fmins = Math.floor((rem1 % 3600) / 60);
+      var fsecs = rem1 % 60;
+
+      document.getElementById('fy').textContent = years;
+      document.getElementById('fd').textContent = fdays;
+      document.getElementById('fh').textContent = pad(fhours);
+      document.getElementById('fm').textContent = pad(fmins);
+      document.getElementById('fs').textContent = pad(fsecs);
+    }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+  window.addEventListener('resize', function(){
+    var now = Date.now();
+    var remaining = TARGET - now;
+    if (remaining > 0){
+      positionStars(Math.max(0, Math.min(1, remaining / totalWindow)));
+    }
+  });
+</script>
+
+</body>
+</html>
